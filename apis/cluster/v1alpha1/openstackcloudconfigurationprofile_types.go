@@ -41,6 +41,25 @@ type KeystoneConfiguration struct {
 	Conf ValuesFile `json:"conf,omitempty"`
 }
 
+type MariadbReplicas struct {
+
+	// Number of mariadb-server pods.
+	// +kubebuilder:default=0
+	// +optional
+	Api int32 `json:"server,omitempty"`
+}
+
+type MariadbConfiguration struct {
+
+	// Configures number of replicas for each pod.
+	// +optional
+	Replicas MariadbReplicas `json:"replicas"`
+
+	// Reference: Values.conf in openstack-helm openstack chart.
+	// +kubebuilder:pruning:PreserveUnknownFields
+	Conf ValuesFile `json:"mariadb,omitempty"`
+}
+
 type HorizonReplicas struct {
 
 	// Number of horizon-server pods.
@@ -194,19 +213,22 @@ type OpenStackCloudConfigurationProfileSpec struct {
 	// Keystone related confs
 	Keystone KeystoneConfiguration `json:"keystone,omitempty"`
 
-	// // Horizon related confs
+	// Mariadb related confs
+    Mariadb MariadbConfiguration `json:"openstack,omitempty"`
+
+	// Horizon related confs
 	Horizon HorizonConfiguration `json:"horizon,omitempty"`
 
-	// // Glance related confs
+	// Glance related confs
 	Glance GlanceConfiguration `json:"glance,omitempty"`
 
-	// // Nova related confs
+	// Nova related confs
 	Nova NovaConfiguration `json:"nova,omitempty"`
 
-	// // Neutron related confs
+	// Neutron related confs
 	Neutron NeutronConfiguration `json:"neutron,omitempty"`
 
-	// // Placement related confs
+	// Placement related confs
 	Placement PlacementConfiguration `json:"placement,omitempty"`
 }
 
